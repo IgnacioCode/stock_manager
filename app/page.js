@@ -1,8 +1,25 @@
-import React from 'react';
-import Sidebar from './components/sidebar/Sidebar.js'
-import { InfoCard } from './components/card_dashboard/InfoCard.js'
+"use client";
+import React, { useState } from 'react';
+import Sidebar from './components/sidebar/Sidebar.js';
+import { InfoCard } from './components/card_dashboard/InfoCard.js';
+import ModalCreateTrx from './components/modal_create_trx/ModalCreateTrx.jsx';
 
 export default function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCreateTransaction = (transaction) => {
+    console.log('Nueva transacción:', transaction);
+    // Aquí puedes añadir lógica para guardar la transacción
+    handleCloseModal();
+  };
 
   return (
     <div className="bg-bggrey flex grow overflow-x-auto">
@@ -22,10 +39,14 @@ export default function App() {
           <div className="flex flex-col bg-white p-[1.3vw] w-[20.6vw] items-stretch">
             <h2 className="text-secondary text-[1.3vw] font-bold mb-4">ACCESO RAPIDO</h2>
             <div className='flex flex-col items-center gap-[1.3vw] h-full'>
-              <button className="bg-black w-[8.8vw] h-[3.3vw] text-white text-[1.3vw]">Nueva Venta</button>
+              <button 
+                className="bg-black w-[8.8vw] h-[3.3vw] text-white text-[1.3vw]"
+                onClick={handleOpenModal}
+              >
+                Nueva Venta
+              </button>
               <button className="bg-black w-[8.8vw] h-[3.3vw] text-white text-[1.3vw]">Nueva Compra</button>
             </div>
-
           </div>
         </div>
 
@@ -89,9 +110,12 @@ export default function App() {
             <p>Contenido del Panel 4</p>
           </div>
         </div>
-
-
       </div>
+      <ModalCreateTrx 
+        isOpen={isModalOpen} 
+        onClose={handleCloseModal} 
+        onCreate={handleCreateTransaction} 
+      />
     </div>
   );
 }

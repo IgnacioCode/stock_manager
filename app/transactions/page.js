@@ -15,48 +15,24 @@ export default function Transactions() {
                             <table className="w-full border-collapse font-titillium">
                                 <thead>
                                     <tr>
-                                        <th className="border-b p-2 text-center text-primary font-titillium w-1/4">Operacion</th>
-                                        <th className="border-b p-2 text-center text-primary font-titillium w-1/6">Codigo</th>
-                                        <th className="border-b p-2 text-center text-primary font-titillium w-1/4">Fecha</th>
-                                        <th className="border-b p-2 text-center text-primary font-titillium w-1/3">Monto</th>
+                                        <th className="border-b p-2 text-center text-primary font-titillium w-1/6">Clave Trasaccion</th>
+                                        <th className="border-b p-2 text-center text-primary font-titillium w-1/6">Tipo</th>
+                                        <th className="border-b p-2 text-center text-primary font-titillium w-1/6">Estado</th>
+                                        <th className="border-b p-2 text-center text-primary font-titillium w-1/6">Fecha y Hora</th>
+                                        <th className="border-b p-2 text-center text-primary font-titillium w-1/6">Cliente</th>
+                                        <th className="border-b p-2 text-center text-primary font-titillium w-1/6">Monto</th>
+                                        <th className="border-b p-2 text-center text-primary font-titillium w-1/6">Productos</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr className='odd:bg-white even:bg-gray-100'>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/4">Dato 1</td>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/6">Dato 2</td>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/4">Dato 3</td>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/3">Dato 4</td>
-                                    </tr>
-                                    <tr className='odd:bg-white even:bg-gray-100'>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/4">Dato 5</td>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/6">Dato 6</td>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/4">Dato 7</td>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/3">Dato 8</td>
-                                    </tr>
-                                    <tr className='odd:bg-white even:bg-gray-100'>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/4">Dato 5</td>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/6">Dato 6</td>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/4">Dato 7</td>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/3">Dato 8</td>
-                                    </tr>
-                                    <tr className='odd:bg-white even:bg-gray-100'>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/4">Dato 5</td>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/6">Dato 6</td>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/4">Dato 7</td>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/3">Dato 8</td>
-                                    </tr>
-                                    <tr className='odd:bg-white even:bg-gray-100'>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/4">Dato 5</td>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/6">Dato 6</td>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/4">Dato 7</td>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/3">Dato 8</td>
-                                    </tr>
-                                    <tr className='odd:bg-white even:bg-gray-100'>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/4">Dato 5</td>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/6">Dato 6</td>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/4">Dato 7</td>
-                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/3">Dato 8</td>
+                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/6">102024000001</td>
+                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/6">Venta</td>
+                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/6">Completado</td>
+                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/6">2024-10-21 11:41:02</td>
+                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/6">Juan Perez</td>
+                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/6">$ 1.450.950,00</td>
+                                        <td className="border-b p-2 text-center text-primary font-titillium w-1/6">🗃️</td>
                                     </tr>
                                 </tbody>
                             </table>
