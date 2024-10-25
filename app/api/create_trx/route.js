@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { UpdateCommand, PutCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 import { v4 as uuidv4 } from 'uuid';
-import { calculateNextTrxKey, getLastTransactionCode, setLastTransactionCode } from '../../utils/globalStorage';
+import { calculateNextTrxKey, getLastTransactionCode, setLastTransactionCode,hashPassword } from '../../utils/globalStorage';
 
 const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
@@ -44,6 +44,7 @@ const updateLastTrxKey = async (newCode) => {
 };
 
 export async function POST(request){
+  
   const body = await request.json();
   body.trx_key = calculateNextTrxKey(getLastTransactionCode());
   console.log('Datos recibidos:', body);

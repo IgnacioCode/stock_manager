@@ -1,6 +1,7 @@
 // middleware.js
 import { setLastTransactionCode,getLastTransactionCode,calculateNextTrxKey } from './app/utils/globalStorage';
 import { NextResponse } from 'next/server';
+import { jwtVerify } from 'jose';
 
 const SECRET_KEY = process.env.JWT_SEED_KEY;
 
@@ -11,18 +12,18 @@ export default async function middleware(req) {
 
   if (
     REQ_PATH.startsWith('/_next') || // Archivos estáticos de Next.js
-    REQ_PATH.startsWith('/static') || // Archivos estáticos personalizados
-    REQ_PATH.startsWith('/api') || // API endpoints
+    REQ_PATH.startsWith('/static') || // Archivos estáticos personalizados || // API endpoints
     REQ_PATH === '/login' // Página de login
   ) {
     return NextResponse.next();
   }
-
+  
   try {
     // Verificar el token JWT
-    jwt.verify(authToken, SECRET_KEY);
+    await jwtVerify(authToken.value, new TextEncoder().encode(SECRET_KEY));
   } catch (error) {
     // Si el token no es válido o ha expirado, redirigir al login
+    console.log(error);
     return NextResponse.redirect(new URL('/login', req.url));
   }
 

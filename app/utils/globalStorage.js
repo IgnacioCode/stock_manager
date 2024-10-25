@@ -1,5 +1,8 @@
 // utils/globalStorage.js
 import GlobalConfig from '../app.config.js'
+import bcrypt from 'bcryptjs';
+
+
 
 export function calculateNextTrxKey(input) {
     // Extraer las partes del string de entrada
@@ -29,4 +32,13 @@ export function setLastTransactionCode(code) {
 
 export function getLastTransactionCode() {
   return GlobalConfig.LAST_TRX_CODE;
+}
+
+export function hashPassword(plainInput) { // Número de iteraciones del algoritmo, a mayor número, mayor seguridad y costo computacional
+  const salt = bcrypt.genSaltSync(10);
+  return bcrypt.hashSync(plainInput, salt);
+}
+
+export function verifyPassword(plainPassword, hashedPassword) {
+  return bcrypt.compareSync(plainPassword, hashedPassword);
 }

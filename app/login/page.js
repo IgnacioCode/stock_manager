@@ -12,7 +12,7 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setErrorMessage('');
-
+    
     try {
       const response = await fetch('/api/usr_login', {
         method: 'POST',
@@ -20,20 +20,18 @@ export default function Login() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username, password }),
+        credentials: 'include'
       });
-      console.log(response)
+      console.log(response);
       if (response.ok) {
-        const authToken = response.headers.get('authToken');
-        if (authToken) {
-          document.cookie = `authToken=${authToken}; Path=/; HttpOnly; SameSite=Strict`;
-        }
-        console.log("ASAAAS ")
+        
         router.push('/');
       } else {
         const data = await response.json();
         setErrorMessage(data.message);
       }
     } catch (error) {
+      console.log(error);
       setErrorMessage('Error de red. Inténtalo de nuevo.');
     }
   };
