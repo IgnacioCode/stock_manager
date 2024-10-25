@@ -24,8 +24,15 @@ export default function Login() {
       });
       console.log(response);
       if (response.ok) {
-        
-        router.push('/');
+        const responseTrxCode = await fetch('/api/get_trx_last_code', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if(responseTrxCode){
+          router.push('/');
+        }
       } else {
         const data = await response.json();
         setErrorMessage(data.message);

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { calculateNextTrxKey, getLastTransactionCode, setLastTransactionCode } from '../../utils/globalStorage';
 
+
 export async function GET(request){
   console.log(getLastTransactionCode())
     const transactions = [

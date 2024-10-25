@@ -2,6 +2,20 @@
 import { setLastTransactionCode,getLastTransactionCode,calculateNextTrxKey } from './app/utils/globalStorage';
 import { NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient, GetCommand } from "@aws-sdk/lib-dynamodb";
+
+const aws_region = process.env.AWS_REGION || 'sa-east-1';
+
+const client = new DynamoDBClient({
+  region: aws_region,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID, // Coloca aquí tu access key
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY // Coloca aquí tu secret key
+  },
+  output:'json'
+});
+const docClient = DynamoDBDocumentClient.from(client);
 
 const SECRET_KEY = process.env.JWT_SEED_KEY;
 
@@ -23,18 +37,31 @@ export default async function middleware(req) {
     await jwtVerify(authToken.value, new TextEncoder().encode(SECRET_KEY));
   } catch (error) {
     // Si el token no es válido o ha expirado, redirigir al login
-    console.log(error);
+    console.log("Error del middleware: " + error);
     return NextResponse.redirect(new URL('/login', req.url));
   }
 
-  if (REQ_PATH === '/') {
-    if (getLastTransactionCode() == '000000000000') {
-      // Llamar al servicio externo para obtener el código inicial
-      /*const response = await fetch('https://mi-servicio-externo.com/api/trx-code');
-      const data = await response.json();*/
-      setLastTransactionCode(calculateNextTrxKey('000000000000'));
+  if (getLastTransactionCode() == '000000000000') {
+    NextResponse.redirect(new URL('/api/get_trx_last_code', req.url));
+    /*const command = new GetCommand({
+      TableName: "ManagerDataValues",
+      Key: {
+        key: "LAST_TRX_KEY",
+      },
+    });
+    try{
+      const response = await docClient.send(command);
+      setLastTransactionCode(response.Item.value);
       console.log('Código de transacción inicial cargado:', getLastTransactionCode());
     }
+    catch(e){
+      console.log("ERROR ES: " + e);
+    }*/
+    
+  }
+
+  if (REQ_PATH === '/') {
+    
   }
   return NextResponse.next();
 }
