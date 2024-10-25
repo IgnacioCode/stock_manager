@@ -23,15 +23,12 @@ export default async function middleware(req) {
 
   const authToken = req.cookies.get('authToken');
   const REQ_PATH = req.nextUrl.pathname
+  const SERVER_FLAG = req.headers.get('server-flag')
 
-  if (
-    REQ_PATH.startsWith('/_next') || // Archivos estáticos de Next.js
-    REQ_PATH.startsWith('/static') || // Archivos estáticos personalizados || // API endpoints
-    REQ_PATH === '/login' // Página de login
-  ) {
+  if(SERVER_FLAG){
     return NextResponse.next();
   }
-  
+
   try {
     // Verificar el token JWT
     await jwtVerify(authToken.value, new TextEncoder().encode(SECRET_KEY));
@@ -39,33 +36,12 @@ export default async function middleware(req) {
     // Si el token no es válido o ha expirado, redirigir al login
     console.log("Error del middleware: " + error);
     return NextResponse.redirect(new URL('/login', req.url));
+    //return NextResponse.next();
   }
 
-  if (getLastTransactionCode() == '000000000000') {
-    NextResponse.redirect(new URL('/api/get_trx_last_code', req.url));
-    /*const command = new GetCommand({
-      TableName: "ManagerDataValues",
-      Key: {
-        key: "LAST_TRX_KEY",
-      },
-    });
-    try{
-      const response = await docClient.send(command);
-      setLastTransactionCode(response.Item.value);
-      console.log('Código de transacción inicial cargado:', getLastTransactionCode());
-    }
-    catch(e){
-      console.log("ERROR ES: " + e);
-    }*/
-    
-  }
-
-  if (REQ_PATH === '/') {
-    
-  }
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/((?!api|_next|static).*)'],
+  matcher: ['/((?!_next|static|api/usr_login|login).*)'],
 };

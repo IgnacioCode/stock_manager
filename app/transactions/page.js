@@ -1,8 +1,61 @@
+//"use client";
+//import React, { useEffect, useState } from 'react';
 import React from 'react';
 import Sidebar from '../components/sidebar/Sidebar.js'
 import FilterTrx from '../components/trx_filter/FilterTrx.js';
 
+
 export default function Transactions() {
+
+    //const [transactions, setTransactions] = useState([]);
+    const URL_PATH = process.env.URL;
+
+    async function getTrxList(){
+        try {
+            const response = await fetch(URL_PATH + '/api/last_trx', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'server-flag': "local-server"
+              },
+              credentials: 'include'
+            });
+            const data = await response.json()
+            console.log(data);
+        }catch(e){
+            console.log("Error en fetch " + e);
+        }
+
+    }
+
+    getTrxList()
+    /*
+    useEffect(() => {
+        async function getTrxList() {
+            try {
+                const response = await fetch('/api/last_trx', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setTransactions(data.transactions);
+                    console.log(data);
+                } else {
+                    console.error(`HTTP error! Status: ${response.status}`);
+                }
+            } catch (e) {
+                console.error("Error en fetch: " + e);
+            }
+        }
+
+        getTrxList();
+    }, []);*/
+
     return (
         <div className="bg-bggrey flex grow overflow-x-auto gap-[1.3vw] ">
             <Sidebar />
