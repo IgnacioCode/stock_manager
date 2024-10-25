@@ -22,7 +22,7 @@ export default function Login() {
         body: JSON.stringify({ username, password }),
         credentials: 'include'
       });
-      console.log(response);
+
       if (response.ok) {
         const responseTrxCode = await fetch('/api/get_trx_last_code', {
           method: 'GET',

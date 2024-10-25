@@ -6,6 +6,25 @@ import { calculateNextTrxKey, getLastTransactionCode, setLastTransactionCode,has
 const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
 
+let semaphore = false;
+
+function acquireSemaphore() {
+  return new Promise((resolve) => {
+    const interval = setInterval(() => {
+      if (!semaphore) {
+        semaphore = true;
+        clearInterval(interval);
+        resolve();
+      }else{
+        //console.log("Me quede esperando");
+      }
+    }, 50); // Verifica cada 50 ms si el recurso está disponible
+  });
+}
+function releaseSemaphore() {
+  semaphore = false;
+}
+
 // Función para insertar un nuevo elemento en la tabla 'ManagerTransactions'
 const insertTransaction = async (transactionData) => {
   const command = new PutCommand({
@@ -17,8 +36,6 @@ const insertTransaction = async (transactionData) => {
   setLastTransactionCode(transactionData.trx_key)
   const responseTrxKey = await updateLastTrxKey(transactionData.trx_key)
 
-  console.log(response);
-  console.log(responseTrxKey);
   return response;
 };
 
@@ -38,20 +55,29 @@ const updateLastTrxKey = async (newCode) => {
   });
 
   const response = await docClient.send(command);
-  console.log(response);
   return response;
 };
 
 export async function POST(request){
   
   const body = await request.json();
-  let last_trx_code = await getLastTransactionCode()
-  body.trx_key = calculateNextTrxKey(last_trx_code);
-  console.log('Datos recibidos:', body);
+  let response;
+  await acquireSemaphore()
+  try{
+    let last_trx_code = await getLastTransactionCode()
+    body.trx_key = calculateNextTrxKey(last_trx_code);
+    console.log('Datos recibidos:', body);
+    await insertTransaction(body);
+    response = NextResponse.json({ message: 'TRX creada exitosamente' }, { status: 201 })
+  }
+  catch(e){
+    console.log("Error al intentar crear una TRX " + e);
+    response = NextResponse.json({ message: 'Credenciales incorrectas' + e}, { status: 401 });
+  }
+  finally{
+    releaseSemaphore()
+    return response;
+  }
 
-  insertTransaction(body);
-
-  return NextResponse.json(request);
-  //return NextResponse.json(insertTransaction(request));
 }
 

@@ -3,7 +3,6 @@ import { calculateNextTrxKey, getLastTransactionCode, setLastTransactionCode } f
 
 
 export async function GET(request){
-  console.log(getLastTransactionCode())
     const transactions = [
         {
           date: '2024-10-01',

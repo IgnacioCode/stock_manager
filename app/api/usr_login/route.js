@@ -12,8 +12,6 @@ const SECRET_KEY = process.env.JWT_SEED_KEY;
 export async function POST(request) {
   const { username, password } = await request.json();
 
-  console.log("Datos recibidos " + username + " " + password)
-
   const command = new GetCommand({
     TableName: "ManagerUsers",
     Key: {

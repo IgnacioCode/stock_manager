@@ -10,7 +10,6 @@ export default function ModalCreateTrx({ isOpen, onClose, onCreate }){
   const [amount, setAmount] = useState('');
 
   const handleCreateTransaction = async (transaction) => {
-    console.log('Nueva transacción:', transaction);
     try {
       const response = await fetch('/api/create_trx', {
         method: 'POST',
@@ -25,7 +24,6 @@ export default function ModalCreateTrx({ isOpen, onClose, onCreate }){
       }
 
       const data = await response.json();
-      console.log('Transacción insertada:', data);
     } catch (error) {
       console.error('Error al insertar la transacción:', error);
     }

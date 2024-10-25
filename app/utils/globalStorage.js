@@ -56,7 +56,6 @@ export async function setLastTransactionCode(code) {
   });
   try {
     const response = await docClient.send(command);
-    console.log(response);
     return response;
   }
   catch (e) {

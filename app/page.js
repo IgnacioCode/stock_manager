@@ -16,7 +16,6 @@ export default function App() {
   };
 
   const handleCreateTransaction = (transaction) => {
-    console.log('Nueva transacción:', transaction);
     // Aquí puedes añadir lógica para guardar la transacción
     handleCloseModal();
   };
